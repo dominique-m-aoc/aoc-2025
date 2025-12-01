@@ -1,0 +1,5 @@
+ROUTINE day01
+ ;day01.txt
+ K  S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),F=$E($T(+C),D+C,*),$ZT=Q,H=C_B_B,W=H/D
+ O F:Q U F F  R S S X=$E(S,D,*) D $I(W,$S($E(S)=Q:X,C:-X)) S:((W<B)||(W>=H)) W=W#H D:'W $I(Z)
+R C F W !,Z
