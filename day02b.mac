@@ -1,0 +1,9 @@
+ROUTINE day02
+ ;day02.txt
+ K  S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),N=$E(-C),F=$E($T(+C),D+C,*),$ZT=Q,J=B
+ O F:Q U F F  R T S S=$G(S)_T
+R C F S S=$LFS(S) F I=C:C:$LL(S) S Q=$LG(S,I),O=+Q,P=$P(Q,N,D) F Z=O:C:P D
+ . F K=C:C:$L(Z)\D S Y=$E(Z,C,K),E=C D:$L(Z)#K=B  S:$L(Z)/K=E A(Z)=""
+ . . F M=D:C:$L(Z)\K D:$E(Z,M-C*K+C,M-C*K+$L(Y))=Y $I(E)
+ S G=$G(G),H=B F  S G=$O(A(G)) Q:G=$G(R)  D $I(H,G)
+ W H,!
