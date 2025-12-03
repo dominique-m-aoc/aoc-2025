@@ -1,0 +1,7 @@
+ROUTINE day03b
+ ;day03.txt
+ K  S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),F=$E($T(+C),D+C,*),$ZT=Q,H=B,L=C_D
+ O F:Q U F F  R S I $I(I) F  S:$L(S)=L A(I)=S Q:$L(S)=L  S M=B D  S $E(S,C,L+C)=M
+ .F J=C:C:L+C S K=$E(S,C,L+C),$E(K,J)=$G(Z) S:K>M M=K
+R C F S G=$G(G) F  S G=$O(A(G)) Q:'G  I $I(H,A(G))
+ W H,!
