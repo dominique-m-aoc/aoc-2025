@@ -1,6 +1,6 @@
 ROUTINE day03
  ;day03.txt
- K  S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),F=$E($T(+C),D+C,*),$ZT=Q,H=B,A=B,L=D
- O F:Q U F F  R S I $I(I) F  D:$L(S)=L $I(A,S) Q:$L(S)=L  S M=B D  S $E(S,C,L+C)=M
+ K  S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),F=$E($T(+C),D+C,*),$ZT=Q,L=D
+ O F:Q U F F  R S F  D:$L(S)=L $I(A,S) Q:$L(S)=L  S M=B D  S $E(S,C,L+C)=M
  .F J=C:C:L+C S K=$E(S,C,L+C),$E(K,J)=$G(Z) S:K>M M=K
 R C F W A,!
