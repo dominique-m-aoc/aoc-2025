@@ -3,8 +3,6 @@ ROUTINE day04
  K  S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),F=$E($T(+C),D+C,*),$ZT=Q,P=$E(C/D)
  O F:Q U F F  R S I $I(I) F J=C:C:$L(S) S A(I,J)=$S($E(S,J)=P:B,C:C)
 R C F F K=C:C:I F L=C:C:J S V=B D  S B(K,L)=V
- . S V=V+$G(A(K-C,L-C))+$G(A(K-C,L))+$G(A(K-C,L+C))
- . S V=V+$G(A(K,  L-C))             +$G(A(K,  L+C))
- . S V=V+$G(A(K+C,L-C))+$G(A(K+C,L))+$G(A(K+C,L+C))
+ . F Y=-C,B,C F Z=-C,B,C S:'(Y=B&(Z=B)) V=V+$G(A(K+Y, L+Z))
  F K=C:C:I F L=C:C:J D:(A(K,L))&&(B(K,L)<(D+D)) $I(R)
  W R,!
