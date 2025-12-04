@@ -4,7 +4,7 @@ ROUTINE day04b
  O F:Q U F F  R S I $I(I) F J=C:C:$L(S) S A(I,J)=$S($E(S,J)=P:B,C:C)
 R C F S X=B F K=C:C:I F L=C:C:J S V=B D  S B(K,L)=V
  . S V=V+$G(A(K-C,L-C))+$G(A(K-C,L))+$G(A(K-C,L+C))
- . S V=V+$G(A(K,L-C))+$G(A(K,L+C))
+ . S V=V+$G(A(K,  L-C))             +$G(A(K,  L+C))
  . S V=V+$G(A(K+C,L-C))+$G(A(K+C,L))+$G(A(K+C,L+C))
  F K=C:C:I F L=C:C:J D:(A(K,L))&&(B(K,L)<(D+D))
  . S A(K,L)=B D $I(X) D $I(R)
