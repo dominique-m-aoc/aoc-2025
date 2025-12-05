@@ -1,0 +1,7 @@
+ROUTINE day05b
+ ;day05.txt
+ K  S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),F=$E($T(+C),D+C,*),$ZT=Q,E=$E(-C)
+ O F:Q U F F  R S S H=$P(S,E,D) S:H&($G(A(+S))<H) A(+S)=H
+R C F S I=B F  S I=$O(A(I)) Q:'I  S J=I F  S J=$O(A(J)) Q:'J  I J<=A(I) S:A(J)>A(I) A(I)=A(J) K A(J)
+ S K=B F  S K=$O(A(K)) Q:'K  D $I(L,A(K)-K+C)
+ W L,!
