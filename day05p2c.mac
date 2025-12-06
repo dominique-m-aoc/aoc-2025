@@ -11,7 +11,7 @@ day05p2c(fileName = "day05.txt") {
         set:update ranges(rangeStart) = rangeEnd
     }
  } catch ex {
-    if ex.Name'="<ENDOFFILE>" throw ex
+    throw:ex.Name'="<ENDOFFILE>" ex
     close fileName
  }
  set currentRangeStart = 0
