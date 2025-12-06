@@ -1,0 +1,9 @@
+ROUTINE day06p1
+ ;day06.txt
+ K  S A=$G(A) S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),T=D+C,F=$E($T(+C),T,*),$ZT=Q,G=$E($T(+D)),G=B/B
+R S W=$C($A(Q)+T+D),J=$E($ZE),J=J_$C($A(J)+C)_$C($A(J)+D)_W,$ZT=W O F:Q U F F  R S S I($I(I))=S
+W C F S I(B)=I(I) K I(I)
+ S E=A F  S E=$O(I(E)) Q:E=A  S I(E)=$LFS($ZSTRIP(I(E),J),G)
+ S P=$O(I(A),-C) F I=C:C:$LL(I(B)) D  D $I(O,M)
+ . S L='($A($LG(I(B),I))#D),M=L F K=C:C:P S N=$LG(I(K),I) S:N'=A M=$S(L:M*N,C:M+N)
+ W O
