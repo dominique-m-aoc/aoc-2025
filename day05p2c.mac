@@ -1,0 +1,40 @@
+ROUTINE day05p2c
+day05p2c(fileName = "day05.txt") {
+ try {
+    open fileName:"R"
+    use fileName
+    for  {
+        read range
+        set rangeStart = +range
+        set rangeEnd = $piece(range, "-", 2)
+        set update = rangeEnd && ($get(ranges(rangeStart)) < rangeEnd)
+        set:update ranges(rangeStart) = rangeEnd
+    }
+ } catch ex {
+    if ex.Name'="<ENDOFFILE>" throw ex
+    close fileName
+ }
+ set currentRangeStart = 0
+ for  {
+    set currentRangeStart = $order(ranges(currentRangeStart))
+    quit:'currentRangeStart
+    set nextRangeStart = currentRangeStart
+    for  {
+        set nextRangeStart = $order(ranges(nextRangeStart))
+        quit:'nextRangeStart
+        set currentRangeEnd = ranges(currentRangeStart)
+        continue:(currentRangeEnd < nextRangeStart)
+        set updateCurrentRangeEnd = ranges(nextRangeStart) > currentRangeEnd
+        set:updateCurrentRangeEnd ranges(currentRangeStart) = ranges(nextRangeStart)
+        kill ranges(nextRangeStart)
+    }
+ }
+ set rangeStart = 0
+ for  {
+    set rangeStart=$order(ranges(rangeStart))
+    quit:'rangeStart
+    set rangeEnd = ranges(rangeStart)
+    do $increment(sum, rangeEnd - rangeStart + 1)
+ }
+ write sum
+}
