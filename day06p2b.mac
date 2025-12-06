@@ -1,0 +1,7 @@
+ROUTINE day06p2b
+ K  S Q="R",F="day06.txt",$ZT="W" O F:Q U F F  R S S I($I(I))=S
+W C F F Z=$L(I(I)):-1:1 D
+ .S X="" F Y=1:1:I S X=$ZSTRIP(X_$E(I(Y),Z),"<=>W")
+ .S N($I(V))=+X I X'=+X&$L(X) S L=$E(X,*)="*",U=L D  K N D $I(E,U)
+ ..S M="" F  S M=$O(N(M)) Q:'M  S:N(M) U=$S(L:N(M)*U,1:N(M)+U) 
+ W E
