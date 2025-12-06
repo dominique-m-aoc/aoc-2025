@@ -1,4 +1,4 @@
-ROUTINE day01b
+ROUTINE day01p2
  ;day01.txt
  K  S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),F=$E($T(+C),D+C,*),$ZT=Q,H=C_B_B,W=H/D
  O F:Q U F F  R S S X=$E(S,D,*),L=$S($E(S)=Q:C,C:-C) F X=1:1:X D $I(W,L) S:W=H W=B S:W=-C W=H-C D:W=B $I(A)

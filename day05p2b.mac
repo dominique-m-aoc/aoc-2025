@@ -1,4 +1,4 @@
-ROUTINE day05b2
+ROUTINE day05p2b
  K  S $ZT="R",F="day05.txt" O F:"R" U F F  R S S H=$P(S,"-",2) S:H&($G(A(+S))<H) A(+S)=H
 R C F S I=0 F  S I=$O(A(I)) Q:'I  S J=I F  S J=$O(A(J)) Q:'J  I J<=A(I) S:A(J)>A(I) A(I)=A(J) K A(J)
  S K=0 F  S K=$O(A(K)) Q:'K  D $I(L,A(K)-K+1)
