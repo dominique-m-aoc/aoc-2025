@@ -1,5 +1,11 @@
 ROUTINE day05p2c
 day05p2c(fileName = "day05.txt") {
+ do readFile(fileName, .ranges)
+ do consolidateRanges(.ranges)
+ set sum=$$sumRanges(.ranges)
+ write sum
+}
+readFile(fileName, ranges) {
  try {
     open fileName:"R"
     use fileName
@@ -14,6 +20,8 @@ day05p2c(fileName = "day05.txt") {
     throw:ex.Name'="<ENDOFFILE>" ex
     close fileName
  }
+}
+consolidateRanges(ranges) {
  set currentRangeStart = 0
  for  {
     set currentRangeStart = $order(ranges(currentRangeStart))
@@ -29,6 +37,8 @@ day05p2c(fileName = "day05.txt") {
         kill ranges(nextRangeStart)
     }
  }
+}
+sumRanges(ranges) {
  set rangeStart = 0
  for  {
     set rangeStart=$order(ranges(rangeStart))
@@ -36,5 +46,5 @@ day05p2c(fileName = "day05.txt") {
     set rangeEnd = ranges(rangeStart)
     do $increment(sum, rangeEnd - rangeStart + 1)
  }
- write sum
+ return sum
 }
