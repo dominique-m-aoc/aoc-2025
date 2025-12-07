@@ -1,0 +1,4 @@
+ROUTINE day07p2d
+ K  S F="day07.txt",$ZT="R",Q=1 O F:"R" U F F  R S S W=$L(S) F G=1:1:W S R=$E(S,G) D
+ .S:R="S" I(G)=1 D:R="^" $I(I(G-1),I(G)),$I(I(G+1),I(G)),$I(Q,I(G)),$I(I(G),-I(G))
+R C F W Q
