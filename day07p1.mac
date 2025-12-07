@@ -1,0 +1,7 @@
+ROUTINE day07p1
+ ;day07.txt
+ K  S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),A=$E($ZV,D+D),F=$E($T(+C),D+C,*),K=$C($A(Q)+(C_D)),$ZT=Q
+ O F:Q U F F  R S S W=$L(S) D $I(I) S G=B,H=$F(S,A) S:H J(I,H-C)=C F  S G=$F(S,K,G) Q:G=B  S I(I,G-C)=C
+R C F F M=D:C:I F N=C:C:W I $G(J(M-C,N)) S J(M,N)=C D
+ .I $G(I(M,N)) D $I(Z) K J(M,N) S:'$G(I(M,N-C)) J(M,N-C)=C S:'$G(I(M,N+C)) J(M,N+C)=C
+ W !,Z
