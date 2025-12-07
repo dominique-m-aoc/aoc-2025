@@ -1,0 +1,7 @@
+ROUTINE day07p2b
+ K  S F="day07.txt",$ZT="R"
+ O F:"R" U F F  R S S W=$L(S) D $I(I) S G=0,H=$F(S,"S") S:H J(I,H-1)=1 F  S G=$F(S,"^",G) Q:G=0  S I(I,G-1)=1
+R C F F M=2:1:I F N=1:1:W I $G(J(M-1,N)) S P=J(M-1,N) D $I(J(M,N),P) D
+ .I $G(I(M,N)) K J(M,N) D:'$G(I(M,N-1)) $I(J(M,N-1),P) D:'$G(I(M,N+1)) $I(J(M,N+1),P)
+ S Z=0 F  S Z=$O(J(I,Z)) Q:'Z  D $I(Y,J(I,Z))
+ W Y
