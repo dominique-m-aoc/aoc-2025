@@ -1,5 +1,5 @@
 ROUTINE day07p2d
- k  s o="day07.txt",$zt="S",e=1 o o:"R" u o f  r a f r=e:e:$l(a) s H=$e(a,r) d
- .d:H="S" $i(m(r)),$i(l)
- .d:H="^" $i(m(r-e),m(r)),$i(m(r+e),m(r)),$i(l,m(r)),$i(m(r),-m(r))
+ k  S o="Lis",$zt="S",e=1 o o:"r" u o f  R a f r=e:e:$l(a) s h=$e(a,r) d
+ .d:h="S" $i(m(r)),$i(l)
+ .d:h="^" $i(m(r-e),m(r)),$i(m(r+e),m(r)),$i(l,m(r)),$i(m(r),-m(r))
 S c o w l
