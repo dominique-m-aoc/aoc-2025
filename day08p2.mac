@@ -1,0 +1,15 @@
+ROUTINE day08p2
+ ;day08.txt
+ K  S V=$G(W),B=+V,C='B,D=C+C,Q=$E($ZV,D),F=$E($T(+C),D+C,*),$ZT=Q
+ O F:Q U F F  R S S $LB(A(-C),A(B),A(C))=$LFS(S) M I($I(I))=A
+R C F F J=C:C:I F K=J:C:I S E=B D  S:E J(E**(C/D),J)=K
+ .F L=-C,B,C D $I(E,(I(J,L)-I(K,L))**D)
+ S $ZT="P"
+ S O="J" F  S O=$Q(@O) Q:O=V  D
+ . S X=$QS(O,2),Y=@O
+ . I '$D(U(X)) D $I(Z) I Z=1000 S G(0)=X,G(1)=Y W 0/0
+ . I '$D(U(Y)) D $I(Z) I Z=1000 S G(0)=X,G(1)=Y W 0/0
+ . S U(X)=B,U(Y)=B
+P W $ZABS(I(G(0),-1)*I(G(1),-1))
+ W !
+ Q
