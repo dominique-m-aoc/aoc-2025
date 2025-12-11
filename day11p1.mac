@@ -1,0 +1,48 @@
+ROUTINE day11p1
+day11p1(fileName="day11.txt") {
+ S $ZT="R" O fileName:"R" U fileName F  R S S A=$LFS(S,": "),T=$LFS($LG(A,2)," ") F J=1:1:$LL(T) S I($LG(A),$LG(T,J))=0
+R C fileName S $ZT=""
+ d process(.I)
+}
+process(I) {
+ s start="you"
+ s a="" f  s a=$o(I(start,a)) q:a=""  s paths($i(pathIdCounter))=a
+ s pathIdCounter=$$iteratePaths(pathIdCounter, .paths, .I)
+ s pathIdCounter=$$iteratePaths(pathIdCounter, .paths, .I)
+ s pathIdCounter=$$iteratePaths(pathIdCounter, .paths, .I)
+ s pathIdCounter=$$iteratePaths(pathIdCounter, .paths, .I)
+ s pathIdCounter=$$iteratePaths(pathIdCounter, .paths, .I)
+ s pathIdCounter=$$iteratePaths(pathIdCounter, .paths, .I)
+ w $$done(.paths),!
+ w $o(paths(""),-1)
+ q
+}
+done(paths) {
+ s pathId=""
+ f  {
+    s pathId=$o(paths(pathId))
+    q:pathId=""
+    return:paths(pathId)'="out" 0
+ }
+ return 1
+}
+iteratePaths(pathIdCounter, paths, I) {
+ s pathId=""
+ f  {
+    s pathId=$o(paths(pathId))
+    q:pathId=""
+    continue:paths(pathId)="out"
+    s currentPosition=paths(pathId)
+    s count=0
+    s nextPosition=""
+    f  {
+        s nextPosition=$o(I(currentPosition,nextPosition))
+        q:nextPosition=""
+        s:count=0 paths(pathId)=nextPosition
+        s:count>0 nextPaths($i(pathIdCounter))=nextPosition
+        d $i(count)
+    }
+ }
+ m paths=nextPaths
+ return pathIdCounter
+}
