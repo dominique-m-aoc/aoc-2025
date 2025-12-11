@@ -1,0 +1,13 @@
+ROUTINE day08p1
+ ;day08.txt
+ K  S V=$G(W),B=+V,C='B,D=C+C,Q=$E($ZV,D),F=$E($T(+C),D+C,*),$ZT=Q
+ O F:Q U F F  R S S $LB(A(-C),A(B),A(C))=$LFS(S) M I($I(I))=A S T(I,I)=B
+R C F F J=C:C:I F K=J:C:I S E=B D  S:E J(E**(C/D),J)=K
+ .F L=-C,B,C D $I(E,(I(J,L)-I(K,L))**D)
+ S O="J",C=0 F  S O=$Q(@O) Q:O=V  Q:C=1000  S X=$QS(O,2),Y=@O,T(X,Y)=B,C=C+1
+F S U="T" F  S U=$Q(@U) G:U=V D S X=$QS(U,1),Y=$QS(U,2) I ($O(P(V))=V)||$D(P(X))||$D(P(Y)) S P(X)=V,P(Y)=V K T(X,Y) G F
+D M N($I(F))=P K P G:$O(T(V))'=V F
+ S H=V F  S H=$O(N(H)) Q:H=V  S I=V F  S I=$O(N(H,I)) Q:I=V  D $I(H(H))
+ S H=V F  S H=$O(H(H)) Q:H=V  S G(H(H))=H
+ S K=1,M="",J=0 F  S M=$O(G(M),-1) Q:J=3  S K=K*M D $I(J)
+ W K

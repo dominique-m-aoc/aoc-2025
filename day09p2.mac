@@ -1,0 +1,57 @@
+ROUTINE day09p2
+ ;day09.txt
+ K  S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),F=$E($T(+C),D+C,*),$ZT=Q
+ O F:Q U F F  R S S $LB(X,Y)=$LFS(S) S I(X,Y)=B,J(X)=B,K(Y)=B
+R C F
+ S $ZT=""
+ ; compress
+ S X="" F  S X=$O(J(X)) Q:X=""  S J1(X)=$I(J1),J2(J1)=X
+ S Y="" F  S Y=$O(K(Y)) Q:Y=""  S K1(Y)=$I(K1),K2(K1)=Y
+ ; initialise red tiles
+ S A="I" F  S A=$Q(@A) Q:A=""  S V=$QS(A,1),W=$QS(A,2),L(J1(V),K1(W))="#",M(K1(W),J1(V))="#"
+ ; copy
+ M N=M
+ ; Connect red tiles that see each other horizontally
+ F X=1:1:J1 S Y1=$O(L(X,"")) S Y2=$O(L(X,""),-1) F Y=Y1:1:Y2 S L1(X,Y)="#",M1(Y,X)="#"
+ ; Connect red tiles that see each other vertically
+ F Y=1:1:K1 S X1=$O(M(Y,"")) S X2=$O(M(Y,""),-1) F X=X1:1:X2 S L2(X,Y)="#",M2(Y,X)="#"
+ ; Merge connected tiles
+ M L=L1,L=L2,M=M1,M=M2
+ ; flood fill outside from corners
+ S FF(1,1)=B,FF(J1,1)=B,FF(1,J1)=B,FF(J1,K1)=B
+ F  S P=$Q(FF("")) Q:P=""  S X=$QS(P,1),Y=$QS(P,2),L(X,Y)=" ",M(Y,X)=" " D
+ .S Q=$G(L(X+1,Y)) I ((X+1)<J1)&&(Q'="#")&&(Q'=" ") S FF(X+1,Y)=" "
+ .S Q=$G(L(X-1,Y)) I ((X-1)>0 )&&(Q'="#")&&(Q'=" ") S FF(X-1,Y)=" "
+ .S Q=$G(L(X,Y+1)) I ((Y+1)<K1)&&(Q'="#")&&(Q'=" ") S FF(X,Y+1)=" "
+ .S Q=$G(L(X,Y-1)) I ((Y-1)>0 )&&(Q'="#")&&(Q'=" ") S FF(X,Y-1)=" "
+ .K FF(X,Y)
+ ; set remaining to blue
+ F X=1:1:J1 F Y=1:1:K1 S:$G(L(X,Y))="" L(X,Y)="#",M(Y,X)="#"
+ ; find largest rectangle without flood fill intersection
+ S BIGGESTA=0
+ S P="I" F  S P=$Q(@P) Q:P=""  S Q=P  F  S Q=$Q(@Q) Q:Q=""  D
+ . ;W P,"-",Q,!
+ . S V=$QS(P,1),W=$QS(P,2),X=$QS(Q,1),Y=$QS(Q,2)
+ . S:Y<W TEMPW=W,W=Y,Y=TEMPW
+ . S A=(Y-W)*(X-V)
+ . Q:A<BIGGESTA
+ . S OUCH=0
+ . ;W A
+ . F G=J1(V):1:J1(X) F H=K1(W):1:K1(Y) S:$G(L(G,H))=" " OUCH=1
+ . ;W "|",OUCH
+ . ;W !
+ . S:(A>BIGGESTA)&&'OUCH BIGGESTA=A,DIAG=J1(V)_"|"_J1(X)_"|"_K1(W)_"|"_K1(Y)_"|"_V_"|"_X_"|"_W_"|"_Y
+
+ S V=$P(DIAG,"|",1)
+ S X=$P(DIAG,"|",2)
+ S W=$P(DIAG,"|",3)
+ S Y=$P(DIAG,"|",4)
+ F G=V:1:X F H=W:1:Y S L(G,H)="."
+ D A()
+ W !
+ W BIGGESTA
+ ZW DIAG
+ Q
+A()
+ F X123=1:1:J1 D  W !
+ .F Y123=1:1:K1 W $G(L(X123,Y123),".")

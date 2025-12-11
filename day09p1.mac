@@ -1,0 +1,11 @@
+ROUTINE day09p1
+ ;day09.txt
+ K  S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),F=$E($T(+C),D+C,*),$ZT=Q
+ O F:Q U F F  R S S $LB(X,Y)=$LFS(S) S I(X,Y)=B
+R S $ZT="" C F S H=B
+ S A="I" F  S A=$Q(@A) Q:A=""  S B=A F  S B=$Q(@B) Q:B=""  D
+ .S V=$QS(A,1),W=$QS(A,2),X=$QS(B,1),Y=$QS(B,2)
+ .W "("_V,",",W,")(",X,",",Y,")",!
+ .S Z=$ZABS((Y-W+1)*(X-V+1))
+ .S:Z>H H=Z
+ W H
