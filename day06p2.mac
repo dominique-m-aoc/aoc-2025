@@ -1,6 +1,6 @@
 ROUTINE day06p2
  ;day06.txt
- K  S A=$G(A) S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),T=D+C,F=$E($T(+C),T,*),$ZT=Q,G=$E($T(+D)),G=B/B
+ K  S A=$G(A) S B=+$G(B),C='B,D=C+C,Q=$E($ZV,D),T=D+C,F=$E($T(+C),T,*),$ZT=Q,G=B/B
 R S W=$C($A(Q)+T+D),J=$E($ZE),J=J_$C($A(J)+C)_$C($A(J)+D)_W,$ZT=W O F:Q U F F  R S S I($I(I))=S
 W C F F Z=$L(I(I)):-C:C D
  .S X=A F Y=C:C:I S X=$ZSTRIP(X_$E(I(Y),Z),J)
