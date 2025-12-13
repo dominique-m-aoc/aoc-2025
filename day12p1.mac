@@ -1,0 +1,169 @@
+ROUTINE day12p1
+day12p1(fileName="day12.txt") {
+ s st="^day12p1"
+ d readFile(st, fileName)
+ d prepareArea(st, 2, .area)
+ w $$processArea(.area)
+ return
+}
+processArea(area) {
+ s tryBlock=area("initialTry")
+ s maxTryBlock=area("maxTry")
+ try {
+  for  {
+    s areaRows=area("size",1)
+    s maxOffset=areaRows-area("dim")+1
+    s maxTryOffset="", tryOffset=""
+    for i=1:1:area("blockCount") {
+      s maxTryOffset=maxTryOffset_$lb(maxOffset)
+      s tryOffset=tryOffset_$lb(1)
+    }
+    try {
+      for {
+        s result=$$tryCombination(.area, tryBlock, tryOffset)
+        return:result 1
+        s tryOffset=$$incrementTry(tryOffset, maxTryOffset)
+      }
+    } catch {
+    }
+    s tryBlock=$$incrementTry(tryBlock, maxTryBlock)
+  }
+ } catch {
+  return 0
+ }
+}
+tryCombination(area, tryBlock, tryOffset) {
+  zw:$random(100000)=700 tryBlock, tryOffset
+  s $e(field, area("size",0) * area("size",1))=" "
+  s field=$tr(field, " ", ".")
+  s width=area("size",0)
+  for i=1:1:area("blockCount") {
+    s block=area("toTry", "variation", i, $lg(tryBlock, i))
+    s offset=$lg(tryOffset, i)
+    for j=1:1:$l(block) {
+      s newValue=$e(block,j)
+      continue:newValue'="#"
+      s fieldOffset=j+(offset-1*width)
+      s currentValue=$e(field,fieldOffset)
+      return:(currentValue="#")&&(newValue="#") 0
+      s $e(field,j+(offset-1*width))="#"
+    }
+  }
+  return 1
+}
+incrementTry(try, maxTry) {
+ s position=$ll(try)
+ while position>0 {
+  s $list(try, position)=$lg(try, position)+1
+  if $lg(try, position) > $lg(maxTry, position) {
+    s $list(try, position)=1
+    s position = position-1
+  } else {
+    return try
+  }
+ }
+ throw "overflow"
+}
+prepareArea(st, areaId, area) {
+ m area=@st@("areas", areaId)
+ s areaWidth=area("size", 0)
+ s initialTry=""
+ s maxTry=""
+ s blockId=""
+ f  {
+   k patternsForBlock
+   s blockId=$o(area("blocks",blockId))
+   q:blockId=""
+   m block=@st@("blocks", blockId)
+   s patternCount=0
+   ; cayley table for d4 says these should produce the complete unique set
+   ; i.e. no need to do rotation before flip
+   f flipH=0,1 for flipV=0,1 for rotation=0,90,180,270 d
+   . m source=block
+   . s dim=$l(source(1))
+   . d transform(.source, rotation, flipH, flipV, .result)
+   . f hOffset=1:1:(areaWidth-dim)+1 d
+   . . s pattern = $$makePattern(.result, areaWidth, hOffset)
+   . . d:'$d(patternsForBlock(pattern)) $i(patternCount)
+   . . s patternsForBlock(pattern)=0
+   s blockCount=area("blocks",blockId)
+   f i=1:1:blockCount {
+     d $i(trialBlockId)
+     s toTry(trialBlockId, "count")=patternCount
+     s patternId="", variationId=0
+     for  {
+       s patternId=$o(patternsForBlock(patternId))
+       q:patternId=""
+       s toTry("variation", trialBlockId, $i(variationId))=patternId
+     }
+     s initialTry=initialTry_$lb(1)
+     s maxTry=maxTry_$lb(patternCount)
+   }
+ }
+ s area("initialTry")=initialTry
+ s area("maxTry")=maxTry
+ m area("toTry")=toTry
+ s area("dim")=dim
+ s area("blockCount")=trialBlockId
+}
+transform(source, rotation=0, flipH=0, flipV=0, result) {
+ k result
+ s dim=$l(source(1))
+ f sourceRow=$s(flipV:dim, 1:1):$s(flipV:-1, 1:1):$s(flipV:1, 1:dim) {
+  s targetColumn=0
+  d $i(targetRow)
+  f sourceColumn=$s(flipH:dim,1:1):$s(flipH:-1,1:1):$s(flipH:1,1:dim) {
+    s $e(postFlip(targetRow), $i(targetColumn))=$e(source(sourceRow), sourceColumn)
+  }
+ }
+ f row=1:1:dim {
+  f column=1:1:dim {
+    s:rotation=0 $e(result(row), column)=$e(postFlip(row), column)
+    s:rotation=90 $e(result(row), column)=$e(postFlip(dim-column+1), row)
+    s:rotation=180 $e(result(row), column)=$e(postFlip(dim-row+1), dim-column+1)
+    s:rotation=270 $e(result(row), column)=$e(postFlip(column), dim-row+1)
+  }
+ }
+}
+makePattern(shape, areaWidth, hOffset) {
+ s dim=$l(shape(1))
+ s $e(pattern, areaWidth*dim)=" "
+ s pattern=$tr(pattern, " ", ".")
+ f i=1:1:dim {
+   s offset = ((i-1)*areaWidth)+hOffset
+   s $e(pattern, offset, offset+dim-1)=shape(i)
+ }
+ return pattern
+}
+readFile(st, fileName) {
+ s $ZT="R"
+ o fileName:"R"
+ u fileName
+ k @st
+ ; read blocks
+ for  {
+   r line
+   q:line["x"
+   s y=0, blockId=+line
+   for  {
+      r line
+      q:line=""
+      s @st@("blocks", blockId+1, $i(y))=line
+   }
+ }
+ ; read areas
+ for {
+   d $i(areaCounter)
+   s $lb(sizes, blocks)=$lfs(line, ": ")
+   s @st@("areas", areaCounter, "size", 0)=+sizes
+   s @st@("areas", areaCounter, "size", 1)=$p(sizes, "x", 2)
+   f i=1:1:$l(blocks," ") {
+      s:$p(blocks, " ", i) @st@("areas", areaCounter, "blocks", i)=$p(blocks, " ", i)
+   }
+   r line
+ }
+R
+ c fileName
+ s $ZT=""
+ return
+}
