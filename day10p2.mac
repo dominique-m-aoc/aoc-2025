@@ -1,0 +1,77 @@
+ROUTINE day10p2
+day10p2(fileName="day10.txt") {
+    ; look for lowest joltages
+    ; pick combinations of buttons that fulfill that joltage
+    ; repeat
+ S $ZT="R"
+ O fileName:"R" U fileName
+ F  R S S I($I(I))=S
+R C fileName S $ZT=""
+ d process(.I)
+}
+process(I) {
+ s sum=0
+ s debug=0
+ F J=1:1:I {
+    w:debug "processing line: "_J,!
+    k a
+    d lineToThing(I(J),.a)
+    s level=1
+    w:debug "current sum:",sum,!
+    for i=1:1:10 {
+        s success=$$processline(i, .a, debug)
+        d:success=+success $i(sum,success)
+        q:success=+success
+    }
+    w:success="eh" J
+    w:debug ">",success
+ }
+ w "final sum:", sum,!
+ q
+}
+processline(level, a, debug=0) {
+    s target = a("target")
+    w:debug !,"level: ",level
+    W:debug " - target: ",target,!
+    f i=1:1:a {
+        s wiring=a("wiring",i)
+        w:debug " wiring: ",wiring,!
+        s j=""
+        f  {
+            s j=$o(a("queue",level,j))
+            q:'j
+            s candidate=a("queue",level,j)
+            w:debug "  candidate: ",candidate
+            s result = candidate
+            f k=1:1:$l(candidate) {
+                s:$e(wiring,k)="#" $e(result,k)=$s($e(result,k)="#":".",1:"#")
+            }
+            w:debug " result: ",result," match: ",result=target,!
+            return:result=target level
+            s:'$g(a("enqueued", result)) a("queue", level+1, $i(z))=result
+            s a("enqueued",result)=1
+        }
+    }
+    w:debug !
+    return "eh"
+}
+
+lineToThing(line, a) {
+    S target = $P($P(line,"[",2),"]")
+    s blank = $tr(target,"#",".")
+    s a("target")=target
+    s a("queue",1,1)=blank
+    s line=$lfs(line,"(")
+    s ptr=0
+    WHILE $LISTNEXT(line,ptr,value) {
+        continue:value["["
+        s value=$lfs($p(value,")"))
+        s ptr2=0
+        s wiring=blank
+        while $listnext(value,ptr2,conf) {
+            s $e(wiring, conf+1)="#"
+        }
+        s a("wiring", $i(i)) = wiring
+    }
+    s a=i
+}
